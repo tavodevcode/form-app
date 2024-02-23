@@ -1,13 +1,13 @@
 <h2>Reactivos: <small> Dinámicos </small></h2>
 <hr>
-<form [formGroup]="myform" (submit)="onSubmit()" autocomplete="off">
+<form [formGroup]="myForm" (submit)="onSubmit()" autocomplete="off">
     <!-- Nombre -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
             <input formControlName="name" class="form-control" placeholder="Nombre de la persona">
-            <span class="form-text text-danger">
-                error message
+            <span *ngIf="isValidField('name')" class="form-text text-danger">
+                {{ getFieldError('name') }}
             </span>
         </div>
     </div>
@@ -16,8 +16,8 @@
         <label class="col-sm-3 col-form-label">Agregar</label>
         <div class="col-sm-9">
             <div class="input-group">
-                <input class="form-control" placeholder="Agregar favorito">
-                <button class="btn btn-outline-primary" type="button">
+                <input class="form-control" placeholder="Agregar favorito" [formControl]="newFavoriteGame">
+                <button class="btn btn-outline-primary" type="button" (click)="onAddFavoriteGame()">
                     Agregar favorito
                 </button>
             </div>
@@ -31,12 +31,12 @@
             <div class="mb-1" *ngFor="let favoriteGame of favoriteGames.controls; let i = index">
                 <div class="input-group">
                     <input [formControlName]="i" class="form-control">
-                    <button class="btn btn-outline-danger" type="button">
+                    <button class="btn btn-outline-danger" type="button" (click)="onDeleteFieldArray(i)">
                         Eliminar
                     </button>
                 </div>
-                <span class="form-text text-danger">
-                    Este campo es requerido
+                <span *ngIf="isValidFieldArray(favoriteGames, i)" class="form-text text-danger">
+                    {{ getFieldErrorArray(favoriteGames, i) }}
                 </span>
             </div>
 
